@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrajectoryDots: MonoBehaviour
+public class TrajectoryDots
 {
     //Points Visuals
      GameObject pointPrefab;
@@ -18,16 +18,19 @@ public class TrajectoryDots: MonoBehaviour
         this.pointPrefab = pointPrefab;
         this.numOfPoints = numOfPoints;
         this.shotPoint = shotPoint;
-        InitPoints();
+        InitPointsVisuals();
     }
     
-    public void InitPoints()
+    public void InitPointsVisuals()
     {
 
         points = new GameObject[numOfPoints];
         for (int i = 0; i < numOfPoints; i++)
         {
-            points[i] = Instantiate(pointPrefab, shotPoint.position, Quaternion.identity);
+            points[i] = MonoBehaviour.Instantiate(pointPrefab, shotPoint.position, Quaternion.identity);
+            float alpha =Mathf.Clamp( 1 / (i + 0.1f),0,1);
+            points[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
+
         }
     }
 
@@ -46,7 +49,7 @@ public class TrajectoryDots: MonoBehaviour
         for (int i = 0; i < numOfPoints; i++)
         {
             points[i].transform.position = PointPosition(i * spaceBetweenPoints);
+            
         }
-
     }
 }

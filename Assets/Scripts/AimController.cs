@@ -8,7 +8,7 @@ public class AimController : MonoBehaviour
     public  float strenth;
     public Transform shotPoint;
     private Vector2 direction;
-
+    private bool isPressed;
 
     //Points Visuals
     [SerializeField] public GameObject pointPrefab;
@@ -27,19 +27,37 @@ public class AimController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 bowPos = this.transform.position;
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        direction = mousePosition - bowPos;
-        transform.right = direction;
 
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
+            isPressed = true;
 
-            Throw();
-            
+        }
+        if (Input.GetMouseButton(0) && isPressed)
+        {
+
+            Vector2 bowPos = this.transform.position;
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            direction = -(mousePosition - bowPos);
+            transform.right = direction;
+
+            float distanceFactor = Vector3.Distance(GetMouseWorldPositon(), shotPoint.position);
+            strenth = Mathf.Clamp( distanceFactor*10,0,100);
+            dotsVisuals.DrawPoints(direction, strenth, spaceBetweenPoints/distanceFactor);
         }
 
-        dotsVisuals.DrawPoints(direction,strenth,spaceBetweenPoints);
+        if (Input.GetMouseButtonUp(0))
+        {
+            isPressed = false;
+            Throw();
+
+        }
+
+
+
+
+
     }
 
 
@@ -49,6 +67,11 @@ public class AimController : MonoBehaviour
         
     }
 
+    private Vector3 GetMouseWorldPositon()
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        pos.z = 0;
+        return pos;
+    }
 
-   
 }
