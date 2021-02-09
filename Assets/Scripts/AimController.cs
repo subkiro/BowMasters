@@ -15,10 +15,13 @@ public class AimController : MonoBehaviour
     public GameObject[] points;
     public int numOfPoints;
     public float spaceBetweenPoints;
+
+    private TrajectoryDots dotsVisuals;
     void Start()
     {
 
-        InitPoints();
+        
+        dotsVisuals = new TrajectoryDots(pointPrefab, numOfPoints, shotPoint);
     }
 
     // Update is called once per frame
@@ -26,7 +29,7 @@ public class AimController : MonoBehaviour
     {
         Vector2 bowPos = this.transform.position;
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-         direction = mousePosition - bowPos;
+        direction = mousePosition - bowPos;
         transform.right = direction;
 
 
@@ -36,7 +39,7 @@ public class AimController : MonoBehaviour
             
         }
 
-        DrawPoints();
+        dotsVisuals.DrawPoints(direction,strenth,spaceBetweenPoints);
     }
 
 
@@ -44,29 +47,8 @@ public class AimController : MonoBehaviour
         GameObject bow = Instantiate(BulletPrefab, shotPoint.position,shotPoint.rotation);
         bow.GetComponent<Rigidbody2D>().velocity = transform.right * strenth;
         
-        Destroy(bow, 2f);
     }
 
 
-    public void InitPoints() {
-
-        points = new GameObject[numOfPoints];
-        for (int i = 0; i < numOfPoints; i++)
-        {
-            points[i] = Instantiate(pointPrefab, shotPoint.position, Quaternion.identity);  
-        }
-    }
-
-    private Vector2 PointPosition(float t) {
-        Vector2 position = ((Vector2)shotPoint.position +direction.normalized*strenth*t)+0.5f*Physics2D.gravity *(t*t);
-        return position;
-    }
-
-    private void DrawPoints() {
-        for (int i = 0; i < numOfPoints; i++)
-        {
-            points[i].transform.position = PointPosition(i*spaceBetweenPoints);
-        }
-    
-    }
+   
 }
