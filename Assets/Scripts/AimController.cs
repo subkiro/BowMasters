@@ -9,6 +9,7 @@ public class AimController : MonoBehaviour
     public Transform shotPoint;
     private Vector2 direction;
     private bool isPressed;
+    private GameObject arrow;
 
     //Points Visuals
     [SerializeField] public GameObject pointPrefab;
@@ -20,19 +21,23 @@ public class AimController : MonoBehaviour
     void Start()
     {
 
-        
         dotsVisuals = new TrajectoryDots(pointPrefab, numOfPoints, shotPoint);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
+        
+        
         if (Input.GetMouseButtonDown(0))
         {
             isPressed = true;
-
+           
+            //Prepere Arrow
+            arrow = Instantiate(BulletPrefab, shotPoint.position, shotPoint.rotation);
+            arrow.GetComponent<Rigidbody2D>().isKinematic = true;
+            arrow.GetComponent<Bow>().enabled = false;
+            GameStateController.instance.Player1State();
         }
         if (Input.GetMouseButton(0) && isPressed)
         {
@@ -41,9 +46,10 @@ public class AimController : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             direction = -(mousePosition - bowPos);
             transform.right = direction;
+            arrow.transform.right = direction;
 
             float distanceFactor = Vector3.Distance(GetMouseWorldPositon(), shotPoint.position);
-            strenth = Mathf.Clamp( distanceFactor*10,0,100);
+            strenth = Mathf.Clamp( distanceFactor*10,0,30);
             dotsVisuals.DrawPoints(direction, strenth, spaceBetweenPoints/distanceFactor);
         }
 
@@ -55,6 +61,7 @@ public class AimController : MonoBehaviour
         }
 
 
+      
 
 
 
@@ -62,9 +69,11 @@ public class AimController : MonoBehaviour
 
 
     void Throw() {
-        GameObject bow = Instantiate(BulletPrefab, shotPoint.position,shotPoint.rotation);
-        bow.GetComponent<Rigidbody2D>().velocity = transform.right * strenth;
-        
+        //  GameObject bow = Instantiate(BulletPrefab, shotPoint.position,shotPoint.rotation);
+        arrow.GetComponent<Rigidbody2D>().isKinematic = false;
+        arrow.GetComponent<Bow>().enabled = true;
+        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * strenth;
+        GameStateController.instance.FlyingBowState();
     }
 
     private Vector3 GetMouseWorldPositon()

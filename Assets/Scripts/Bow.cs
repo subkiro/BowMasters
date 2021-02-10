@@ -8,16 +8,20 @@ public class Bow : MonoBehaviour
 {
     Rigidbody2D rb;
     bool hit;
+   
     // Start is called before the first frame update
     void Start()
     {
-         rb = GetComponent<Rigidbody2D>();
+       
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (!hit) { 
+       
+        if (!hit) {
+           
             float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x)*Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }

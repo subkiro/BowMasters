@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - HandIK
+  - ArrowCamera
+  - Bow
+  - PlayerCamera1
   layers:
   - Default
   - TransparentFX
@@ -14,8 +18,8 @@ TagManager:
   - 
   - 
   - Bow
-  - 
-  - 
+  - BackGround
+  - Player
   - 
   - 
   - 
