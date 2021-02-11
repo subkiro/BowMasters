@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: BK1
+  m_EditorClassIdentifier: Assembly-CSharp::BackgroundsSO
+  id: 0
+  Name: City
+  Prefab: {fileID: 1821900932585944736, guid: 79f5821281ff2cc4eb42ae8363807280, type: 3}

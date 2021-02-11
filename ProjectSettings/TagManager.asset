@@ -8,6 +8,10 @@ TagManager:
   - ArrowCamera
   - Bow
   - PlayerCamera1
+  - Background
+  - Player1
+  - Player2
+  - PlayerCamera2
   layers:
   - Default
   - TransparentFX

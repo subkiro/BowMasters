@@ -32,6 +32,8 @@ public class Bow : MonoBehaviour
         hit = true;
         rb.velocity = Vector3.zero;
         rb.isKinematic = true;
+        GameStateController.instance.NextPlayer();
         Destroy(this.gameObject, 2f);
+
     }
 }

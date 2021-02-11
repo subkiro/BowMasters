@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbe066612f98944db3a639b2141004d, type: 3}
+  m_Name: AllAssets
+  m_EditorClassIdentifier: 
+  Characters_SObj:
+  - {fileID: 11400000, guid: 945c39e057cca4c41b76441353dd9ef4, type: 2}
+  Weapons_SObj:
+  - {fileID: 11400000, guid: 2b5084d1513bfa544af16e73546cdf4a, type: 2}
+  Backgrounds_SObj:
+  - {fileID: 11400000, guid: 89d2c1e7ccb7d644086486602346ea24, type: 2}

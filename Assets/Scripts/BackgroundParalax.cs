@@ -7,28 +7,40 @@ public class BackgroundParalax : MonoBehaviour
 	Transform cam; // Camera reference (of its transform)
 	Vector3 previousCamPos;
 
-	public float length = 0f; 
-	public float startPos = 0f;
+	public float distanceX = 0f; // Distance of the item (z-index based) 
+	public float distanceY = 0f;
 
-	public float paralaxEffect = 1f; // Smoothing factor of parrallax effect
-	
-	void Start()
+	public float smoothingX = 1f; // Smoothing factor of parrallax effect
+	public float smoothingY = 1f;
+
+	void Awake()
 	{
 		cam = Camera.main.transform;
-		startPos = this.transform.position.x;
-
 	}
 
 	void Update()
 	{
-		float temp = cam.transform.position.x * (1 - paralaxEffect);
-		float dist = cam.transform.position.x * ( paralaxEffect);
+		if (distanceX != 0f)
+		{
+			float parallaxX = (previousCamPos.x - cam.position.x) * distanceX;
+			Vector3 backgroundTargetPosX = new Vector3(transform.position.x + parallaxX,
+													  transform.position.y,
+													  transform.position.z);
 
-		transform.position = new Vector3(startPos + dist, transform.position.y, transform.position.z);
-		if (temp > startPos - length) {
-			startPos += length;
-		} else if(temp<startPos-length){
-			startPos -= length;
+			// Lerp to fade between positions
+			transform.position = Vector3.Lerp(transform.position, backgroundTargetPosX, smoothingX * Time.deltaTime);
 		}
+
+		if (distanceY != 0f)
+		{
+			float parallaxY = (previousCamPos.y - cam.position.y) * distanceY;
+			Vector3 backgroundTargetPosY = new Vector3(transform.position.x,
+													   transform.position.y + parallaxY,
+													   transform.position.z);
+
+			transform.position = Vector3.Lerp(transform.position, backgroundTargetPosY, smoothingY * Time.deltaTime);
+		}
+
+		previousCamPos = cam.position;
 	}
 }

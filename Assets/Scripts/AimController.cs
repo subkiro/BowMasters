@@ -20,48 +20,49 @@ public class AimController : MonoBehaviour
     private TrajectoryDots dotsVisuals;
     void Start()
     {
-
+        this.enabled = false;
         dotsVisuals = new TrajectoryDots(pointPrefab, numOfPoints, shotPoint);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            isPressed = true;
+
+        if (GameStateController.instance.GameState.GetCurrentAnimatorStateInfo(0).IsName("Player1")) { 
+            if (Input.GetMouseButtonDown(0) )
+            {
+                isPressed = true;
            
-            //Prepere Arrow
-            arrow = Instantiate(BulletPrefab, shotPoint.position, shotPoint.rotation);
-            arrow.GetComponent<Rigidbody2D>().isKinematic = true;
-            arrow.GetComponent<Bow>().enabled = false;
-            GameStateController.instance.Player1State();
+                //Prepere Arrow
+                arrow = Instantiate(BulletPrefab, shotPoint.position, shotPoint.rotation);
+                arrow.tag = "Bow";
+                arrow.GetComponent<Rigidbody2D>().isKinematic = true;
+                arrow.GetComponent<Bow>().enabled = false;
+                GameStateController.instance.Player1State();
+            }
+            if (Input.GetMouseButton(0) && isPressed)
+            {
+
+                Vector2 bowPos = this.transform.position;
+                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                direction = -(mousePosition - bowPos);
+                transform.right = direction;
+                arrow.transform.right = direction;
+
+                float distanceFactor = Vector3.Distance(GetMouseWorldPositon(), shotPoint.position);
+                strenth = Mathf.Clamp( distanceFactor*10,0,30);
+                dotsVisuals.DrawPoints(direction, strenth, spaceBetweenPoints/distanceFactor);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                isPressed = false;
+                Throw();
+
+            }
+
+
         }
-        if (Input.GetMouseButton(0) && isPressed)
-        {
-
-            Vector2 bowPos = this.transform.position;
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            direction = -(mousePosition - bowPos);
-            transform.right = direction;
-            arrow.transform.right = direction;
-
-            float distanceFactor = Vector3.Distance(GetMouseWorldPositon(), shotPoint.position);
-            strenth = Mathf.Clamp( distanceFactor*10,0,30);
-            dotsVisuals.DrawPoints(direction, strenth, spaceBetweenPoints/distanceFactor);
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            isPressed = false;
-            Throw();
-
-        }
-
-
-      
 
 
 
@@ -75,6 +76,8 @@ public class AimController : MonoBehaviour
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * strenth;
         GameStateController.instance.FlyingBowState();
     }
+
+
 
     private Vector3 GetMouseWorldPositon()
     {
