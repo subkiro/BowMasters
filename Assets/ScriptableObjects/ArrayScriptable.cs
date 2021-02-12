@@ -8,7 +8,7 @@ public class ArrayScriptable : ScriptableObject
 {
     [SerializeField]private  List<PlayerSO> Characters_SObj;
     [SerializeField]private List<WeaponSO> Weapons_SObj;
-    [SerializeField] private List<BackgroundsSO> Backgrounds_SObj;
+    [SerializeField]private List<BackgroundSO> Backgrounds_SObj;
     public List<PlayerSO> Get_Characters() {
         return Characters_SObj;
     }
@@ -19,7 +19,7 @@ public class ArrayScriptable : ScriptableObject
     }
 
 
-    public List<BackgroundsSO> Get_Backgrounds()
+    public List<BackgroundSO> Get_Backgrounds()
     {
         return Backgrounds_SObj;
     }

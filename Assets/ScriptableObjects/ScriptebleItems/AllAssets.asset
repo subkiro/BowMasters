@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: AllAssets
   m_EditorClassIdentifier: 
   Characters_SObj:
+  - {fileID: 11400000, guid: 60e6ce70e514aaf49abed525b49c9499, type: 2}
   - {fileID: 11400000, guid: 945c39e057cca4c41b76441353dd9ef4, type: 2}
   Weapons_SObj:
-  - {fileID: 11400000, guid: 2b5084d1513bfa544af16e73546cdf4a, type: 2}
+  - {fileID: 11400000, guid: 720cc35184650394b803ef1b66b830c9, type: 2}
   Backgrounds_SObj:
-  - {fileID: 11400000, guid: 89d2c1e7ccb7d644086486602346ea24, type: 2}
+  - {fileID: 11400000, guid: 844d47b83e42a5944a8c67acea2ef8ff, type: 2}

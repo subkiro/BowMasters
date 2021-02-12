@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName ="Tools/BackGround Obj")]
-public class BackgroundsSO : ScriptableObject
+public class BackgroundSO : ScriptableObject
 {
     public string id;
     public string Name;

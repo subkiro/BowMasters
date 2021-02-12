@@ -8,6 +8,7 @@ public class Bow : MonoBehaviour
 {
     Rigidbody2D rb;
     bool hit;
+    public string ownerPlayer;
    
     // Start is called before the first frame update
     void Start()
@@ -29,11 +30,32 @@ public class Bow : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        hit = true;
-        rb.velocity = Vector3.zero;
-        rb.isKinematic = true;
-        GameStateController.instance.NextPlayer();
-        Destroy(this.gameObject, 2f);
+        if (collision.gameObject.tag != ownerPlayer) {
+            rb.isKinematic = true;
+            rb.mass = 0;
+            this.gameObject.transform.SetParent(collision.transform);
+            hit = true;
+            rb.velocity = Vector3.zero;
+           
 
+            Destroy(this.gameObject,2f);
+        }
     }
+    private void OnDestroy()
+    {
+        this.gameObject.transform.tag = "Untagged";
+        GameStateController.instance.NextPlayer();
+    }
+
+    private void OnEnable()
+    {
+        if (GameStateController.instance.GameState.GetCurrentAnimatorStateInfo(0).IsName("Player1"))
+        {
+            gameObject.layer = 8; //Bow layer
+        }
+        else {
+            gameObject.layer = 11; //Bow layer
+        }
+    }
+
 }

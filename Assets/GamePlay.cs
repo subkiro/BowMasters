@@ -15,7 +15,9 @@ public class GamePlay : MonoBehaviour
 
     private List<PlayerSO> PlayersList;
     private List<WeaponSO> WeaponsList;
-    private List<BackgroundsSO> Backgrounds;
+    private List<BackgroundSO> Backgrounds;
+
+    public TMPro.TMP_Text logText;
     // Start is called before the first frame update
 
     public static GamePlay instance;
@@ -40,6 +42,7 @@ public class GamePlay : MonoBehaviour
         weapon1 = WeaponsList[index_w1];
         weapon2 = WeaponsList[index_w2];
 
+        logText.text = "UI player select ok";
         Debug.Log("UI player select ok");
     }
 
@@ -52,25 +55,31 @@ public class GamePlay : MonoBehaviour
             Player1.tag = "Player1";
 
 
-            Player2 = Player1_SO.InitializeCharacter(SpawnPos_Player2.transform.position, SpawnPos_Player2.transform.rotation, weapon2);
+            Player2 = Player2_SO.InitializeCharacter(SpawnPos_Player2.transform.position, SpawnPos_Player2.transform.rotation, weapon2,true);
             Player2.tag = "Player2";
 
             //This is for turning the AI player towords to the Plyaer
             Player2.transform.rotation =  new Quaternion(0, 180, 0,0);
+            logText.text = "init player in Game ok";
             Debug.Log("init player in Game ok");
+            GameStateController.instance.Player1State();
         }
         else {
+            logText.text = "You have to SetPlayers Before Initialize them: Player1_SO ("+Player1.name+ ") / Player2_SO (" + Player2.name + ") / weapon1(" + weapon1.name + ") / weapon1(" + weapon2.name + ") ";
             Debug.Log("You have to SetPlayers Before Initialize them: Player1_SO / Player2_SO / weapon1 / weapon1  some of them are NUL");
         }
+        logText.text = "You have to SetPlayers Before Initialize them: Player1_SO (" + Player1.name + ") / Player2_SO (" + Player2.name + ") / weapon1(" + weapon1.name + ") / weapon1(" + weapon2.name + ") ";
 
-        GameStateController.instance.Player1State();
+
     }
 
     public void InitBackground(int Background_index) {
-        if (Background_index < Backgrounds.Count && Background_index>=0) {
+      
             Backgrounds[Background_index].InitializeBackground(new Vector3(0, -5, 0));
+           
+            logText.text = "BackGround in Game ok: " + Backgrounds[Background_index].name;
             Debug.Log("BackGround in Game ok");
-        }
+      
     }
 
 
@@ -79,7 +88,7 @@ public class GamePlay : MonoBehaviour
     //Test functions for UI
     public void SetPlayers_UI() {
 
-        SetPlayersFromScriptable(0, 0, 0, 0);
+        SetPlayersFromScriptable(0, 1, 0, 0);
     }
 
     public void InitBackground_UI()

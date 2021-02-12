@@ -24,8 +24,8 @@ TagManager:
   - Bow
   - BackGround
   - Player
-  - 
-  - 
+  - BowAI
+  - PlayerAI
   - 
   - 
   - 

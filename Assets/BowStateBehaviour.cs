@@ -7,7 +7,7 @@ public class BowStateBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        GameStateController.instance.nextState = stateInfo.IsName("Player1") ? "Player1" : "Player2";
+        GameStateController.instance.nextState = (Animator.StringToHash("Player1") == GameStateController.instance.prevState) ? "Player2" : "Player1";
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

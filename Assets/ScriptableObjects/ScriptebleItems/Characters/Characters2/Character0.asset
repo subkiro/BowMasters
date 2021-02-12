@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: BK1
-  m_EditorClassIdentifier: Assembly-CSharp::BackgroundsSO
+  m_Script: {fileID: 11500000, guid: 61683ac048a95014484df430bf898191, type: 3}
+  m_Name: Character0
+  m_EditorClassIdentifier: 
   id: 0
-  Name: City
-  Prefab: {fileID: 1821900932585944736, guid: 79f5821281ff2cc4eb42ae8363807280, type: 3}
+  Name: Salva
+  Prefab: {fileID: 8851420241934940535, guid: 129056aee3bf14643ad61342cf9387c8, type: 3}

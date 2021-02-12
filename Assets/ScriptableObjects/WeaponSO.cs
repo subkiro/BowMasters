@@ -10,10 +10,10 @@ public class WeaponSO : ScriptableObject
     public GameObject Prefab;
 
 
-    public GameObject InitializeWeapon(Transform HoldingPoint)
+    public GameObject InitializeWeapon(Vector3 HoldingPoint)
     {
 
-        GameObject tmp = Instantiate(Prefab, HoldingPoint);
+        GameObject tmp = Instantiate(Prefab, HoldingPoint, Quaternion.identity) ;
         tmp.AddComponent<Bow>();
         tmp.tag = "Bow";
 

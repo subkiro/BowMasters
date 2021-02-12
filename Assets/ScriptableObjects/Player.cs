@@ -9,7 +9,9 @@ public class Player : MonoBehaviour {
     private Sprite PlayerFaceIcon;
     private WeaponSO weapon;
     public AimController aimController;
-   
+    public Animator animator;
+    
+    
     [SerializeField] private Transform WeaponHodlingPoint;
   
 
@@ -21,15 +23,22 @@ public class Player : MonoBehaviour {
         this.weapon = weapon;
         this.aimController = this.transform.GetComponentInChildren<AimController>();
         this.WeaponHodlingPoint = aimController.shotPoint; 
+        this.animator = GetComponent<Animator>();
 
     }
 
-
+    public void TakeDamage() { 
+    
+        
+    }
 
 
     public string GetID() { return id; }
     public string GetName() { return name; }
-    public GameObject NewWeapon() {return weapon.InitializeWeapon(WeaponHodlingPoint);}
+    public GameObject NewWeapon() {
+        Vector3 pos = this.transform.position;
+        return weapon.InitializeWeapon(WeaponHodlingPoint.position);
+    }
     public Transform GetWeaponHoldingPoint() { return WeaponHodlingPoint; }
     public Sprite FaceIcon() {
         return PlayerFaceIcon;

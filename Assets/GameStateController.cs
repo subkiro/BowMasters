@@ -7,7 +7,7 @@ public class GameStateController : MonoBehaviour
 {
     public static GameStateController instance;
     public string nextState;
-
+    public int prevState; //Previous state stored to descied after the bow whos turn is next
     public Animator GameState;
     private void Awake()
     {
@@ -28,12 +28,11 @@ public class GameStateController : MonoBehaviour
     public void Player1State()
     {
 
-
-
         Transform Player = GamePlay.instance.Player1.transform;
         CinemachineVirtualCamera camera = GameObject.FindGameObjectWithTag("PlayerCamera1").GetComponent<CinemachineVirtualCamera>();
         camera.Follow = Player;
-
+              
+        prevState = Animator.StringToHash("Player1"); 
         GameState.Play("Player1");
     }
 
@@ -45,12 +44,13 @@ public class GameStateController : MonoBehaviour
         CinemachineVirtualCamera camera = GameObject.FindGameObjectWithTag("PlayerCamera2").GetComponent<CinemachineVirtualCamera>();
         camera.Follow = Player;
 
+        prevState = Animator.StringToHash("Player2");
         GameState.Play("Player2");
     }
 
     public void NextPlayer()
     {
-        if (nextState == "Player1")
+        if (prevState ==Animator.StringToHash("Player2"))
         {
             Player1State();
         }

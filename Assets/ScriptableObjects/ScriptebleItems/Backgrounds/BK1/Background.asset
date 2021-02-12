@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Weapon
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
-  id: 1
-  Name: Arrow
-  Prefab: {fileID: 4780136546262173331, guid: 0ce5e9823a3b4fc4082b766c7d2fcecd, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f6c30bff518084cb4efefd4b4e71b9, type: 3}
+  m_Name: Background
+  m_EditorClassIdentifier: 
+  id: 0
+  Name: City
+  Prefab: {fileID: 1821900932585944736, guid: 79f5821281ff2cc4eb42ae8363807280, type: 3}
