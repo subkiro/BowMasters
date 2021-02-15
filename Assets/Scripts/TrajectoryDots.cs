@@ -29,6 +29,7 @@ public class TrajectoryDots
         {
             points[i] = MonoBehaviour.Instantiate(pointPrefab, shotPoint.position, Quaternion.identity,GamePlay.instance.transform);
             float alpha =Mathf.Clamp( 1 / (i + 0.01f),0,1);
+            alpha = 1-(1-alpha);
             points[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
 
         }

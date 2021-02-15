@@ -7,11 +7,15 @@ public class PlayerSO : ScriptableObject
 {
     public string id;
     public string Name;
+    public WeaponSO weapon;
+    public int health = 12;
     public GameObject Prefab;
     private Sprite PlayerFaceIcon;
-    bool isAvaliable = false;
+    public bool isAvaliable = false;
+    
+    public Sprite ProfilePic;
 
-    public GameObject InitializeCharacter(Vector3 initPosition, Quaternion initRotation, WeaponSO weapon,bool isAI = false)
+    public GameObject InitializeCharacter(Vector3 initPosition, Quaternion initRotation, WeaponSO weapon,bool isAI = false )
     {
        
 
@@ -26,7 +30,7 @@ public class PlayerSO : ScriptableObject
 
         }
             Player tmp = PlayerObj.AddComponent<Player>();
-            tmp.InitPlayer(id, Name,PlayerFaceIcon, weapon );
+            tmp.InitPlayer(id, Name,PlayerFaceIcon, weapon, health , ProfilePic);
 
             return PlayerObj;
       

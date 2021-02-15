@@ -15,6 +15,8 @@ MonoBehaviour:
   Characters_SObj:
   - {fileID: 11400000, guid: 60e6ce70e514aaf49abed525b49c9499, type: 2}
   - {fileID: 11400000, guid: 945c39e057cca4c41b76441353dd9ef4, type: 2}
+  - {fileID: 11400000, guid: 945c39e057cca4c41b76441353dd9ef4, type: 2}
+  - {fileID: 11400000, guid: 945c39e057cca4c41b76441353dd9ef4, type: 2}
   Weapons_SObj:
   - {fileID: 11400000, guid: 720cc35184650394b803ef1b66b830c9, type: 2}
   Backgrounds_SObj:

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class AimController : MonoBehaviour
 {
@@ -9,18 +10,30 @@ public class AimController : MonoBehaviour
     private Vector2 direction;
     private bool isPressed;
     private GameObject arrow;
+    private CinemachineVirtualCamera playerCamera;
 
     //Points Visuals
     [SerializeField] public GameObject pointPrefab;
     public GameObject[] points;
     public int numOfPoints;
     public float spaceBetweenPoints;
+    private Vector3 mouseStartPos;
+    [SerializeField] private UIHelper UIHelper;
 
     private TrajectoryDots dotsVisuals;
+
+    private void Awake()
+    {
+        UIHelper.gameObject.SetActive(false);
+        this.enabled = false;
+        
+    }
     void Start()
     {
-        this.enabled = false;
+        playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera1")?.GetComponent<CinemachineVirtualCamera>();
+
         dotsVisuals = new TrajectoryDots(pointPrefab, numOfPoints, shotPoint);
+        
     }
 
     // Update is called once per frame
@@ -40,17 +53,26 @@ public class AimController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 isPressed = true;
-
                 //Prepere Arrow
                 arrow = GamePlay.instance.Player1.GetComponent<Player>().NewWeapon();
                 arrow.tag = "Bow";
                 arrow.GetComponent<Bow>().ownerPlayer = "Player1";
                 arrow.GetComponent<Rigidbody2D>().isKinematic = true;
                 arrow.GetComponent<Bow>().enabled = false;
+                UIHelper.gameObject.SetActive(true);
+                //This is prepere animation befor throw
+                Animator anim = GamePlay.instance.Player1.GetComponent<Player>().animator;
+                anim.Play("PrepereToThrow");
+
+
+                mouseStartPos = GetMouseWorldPositon();
+                playerCamera.m_Lens.OrthographicSize = 5;
+
+
             }
             if (Input.GetMouseButton(0) && isPressed)
             {
-
+                
                 Vector2 bowPos = this.transform.position;
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 direction = -(mousePosition - bowPos);
@@ -58,14 +80,21 @@ public class AimController : MonoBehaviour
                 arrow.transform.right = direction;
 
                 float distanceFactor = Vector3.Distance(GetMouseWorldPositon(), shotPoint.position);
-                strenth = Mathf.Clamp(distanceFactor * 10, 0, 30);
-                dotsVisuals.DrawPoints(direction, strenth, spaceBetweenPoints / distanceFactor);
+
+                //visualize dots
+                strenth = Mathf.Clamp(distanceFactor*10, 0, 30);
+                dotsVisuals.DrawPoints(direction, strenth, (spaceBetweenPoints+0.04f) / distanceFactor);
+
+
+                //animate camera
+                playerCamera.m_Lens.OrthographicSize = 5+ Mathf.Clamp(Vector3.Distance(mouseStartPos.normalized,GetMouseWorldPositon().normalized)*10,0,3f); 
+                UIHelper.UpdateUIHelper(strenth*2+40, this.transform.rotation.z);
             }
+
 
             if (Input.GetMouseButtonUp(0))
             {
                 isPressed = false;
-
 
                 Throw();
 
@@ -140,7 +169,7 @@ public class AimController : MonoBehaviour
         arrow.GetComponent<Rigidbody2D>().isKinematic = false;
         arrow.GetComponent<Bow>().enabled = true;
 
-        float ranX = Random.Range(-5, 5);
+        float ranX = Random.Range(-10, 10);
         float ranY = Random.Range(-1, 1);
         float ranZ = 0;
         Vector3 randOffcet = new Vector3(ranX, ranY, ranZ);

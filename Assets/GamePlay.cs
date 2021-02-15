@@ -6,15 +6,14 @@ public class GamePlay : MonoBehaviour
 {
     [SerializeField] private ArrayScriptable AssetList;
     [SerializeField] private Transform SpawnPos_Player1, SpawnPos_Player2;
-    private PlayerSO Player1_SO, Player2_SO;
+    public PlayerSO Player1_SO, Player2_SO;
     private WeaponSO weapon1, weapon2;
 
 
     public GameObject Player1, Player2;
     private GameObject background;
 
-    private List<PlayerSO> PlayersList;
-    private List<WeaponSO> WeaponsList;
+    public List<PlayerSO> PlayersList;
     private List<BackgroundSO> Backgrounds;
 
     public TMPro.TMP_Text logText;
@@ -30,17 +29,30 @@ public class GamePlay : MonoBehaviour
     void Start()
     {
         PlayersList =  AssetList.Get_Characters();
-        WeaponsList = AssetList.Get_Weapons();
         Backgrounds = AssetList.Get_Backgrounds();
     }
 
     //MenuFuctions
-    public void SetPlayersFromScriptable(int index_p1, int index_p2, int index_w1, int index_w2) {
+    public void SetPlayersFromScriptable(int index_p1, int index_p2) {
 
         Player1_SO = PlayersList[index_p1];
         Player2_SO = PlayersList[index_p2];
-        weapon1 = WeaponsList[index_w1];
-        weapon2 = WeaponsList[index_w2];
+        weapon1 = Player1_SO.weapon;
+        weapon2 = Player2_SO.weapon;
+
+        logText.text = "UI player select ok";
+        Debug.Log("UI player select ok");
+    }
+
+
+    public void SetPlayersFromScriptable(PlayerSO player1,PlayerSO player2)
+    {
+
+        Player1_SO = player1;
+        Player2_SO = player2;
+
+        weapon1 = Player1_SO.weapon;
+        weapon2 = Player2_SO.weapon;
 
         logText.text = "UI player select ok";
         Debug.Log("UI player select ok");
@@ -88,7 +100,7 @@ public class GamePlay : MonoBehaviour
     //Test functions for UI
     public void SetPlayers_UI() {
 
-        SetPlayersFromScriptable(0, 1, 0, 0);
+        SetPlayersFromScriptable(0, 1);
     }
 
     public void InitBackground_UI()
