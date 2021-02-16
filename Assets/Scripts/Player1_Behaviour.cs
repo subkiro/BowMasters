@@ -7,10 +7,19 @@ public class Player1_Behaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
-       GamePlay.instance.Player1.GetComponent<Player>().aimController.enabled = true;
 
-        
+        if (GamePlay.instance.winner == null)
+        {
+            UIManager.instance.ToastMessage("Player1");
+            GamePlay.instance.Player1.GetComponent<Player>().aimController.enabled = true;
+            GamePlay.instance.Player1.GetComponent<Player>().aimController.SetAllCollidersStatus(false);
+        }
+        else {
+            GamePlay.instance.Player1.GetComponent<Player>().aimController.enabled = false;
+            GamePlay.instance.Player1.GetComponent<Player>().aimController.SetAllCollidersStatus(true);
+            
+            
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,6 +31,7 @@ public class Player1_Behaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        GamePlay.instance.Player1.GetComponent<Player>().aimController.SetAllCollidersStatus(true);
         GamePlay.instance.Player1.GetComponent<Player>().aimController.enabled = false;
     }
 

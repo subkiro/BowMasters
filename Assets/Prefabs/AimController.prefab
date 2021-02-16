@@ -144,7 +144,7 @@ MonoBehaviour:
   pointPrefab: {fileID: 3335545650890727689, guid: 450b7abed0f05954fb584d6a5777cfee,
     type: 3}
   points: []
-  numOfPoints: 20
+  numOfPoints: 10
   spaceBetweenPoints: 0.01
   UIHelper: {fileID: 7193325406592162754}
 --- !u!1 &2404471932749107040

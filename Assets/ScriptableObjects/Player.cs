@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
     public void TakeDamage(int damage) {
         this.health -= damage;
 
-        EventHandler.instance.TakeDamage(this, damage);
+        EventHandler.instance.TakeDamage(this);
     }
 
 
@@ -50,6 +50,20 @@ public class Player : MonoBehaviour {
     public Sprite FaceIcon() {
         return PlayerFaceIcon;
     }
+    public float GetHealth() {
+        return health / 10f;
+    }
 
-   
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Bow" && collision.transform.GetComponent<Bow>().hit) {
+
+            if (collision.transform.GetComponent<Bow>().ownerPlayer != this.transform.tag) {
+                TakeDamage(5);
+            }
+             
+        }
+    }
 }

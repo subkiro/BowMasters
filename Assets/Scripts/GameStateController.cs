@@ -60,4 +60,18 @@ public class GameStateController : MonoBehaviour
        
     }
 
+
+    public void RestartState(object sender) {
+        GameState.Play("Setup");
+    }
+    private void OnEnable()
+    {
+        EventHandler.instance.ExitMatchAction += RestartState;
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.instance.ExitMatchAction -= RestartState;
+    }
+
 }

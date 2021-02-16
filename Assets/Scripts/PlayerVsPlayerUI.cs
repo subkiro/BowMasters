@@ -31,22 +31,17 @@ public class PlayerVsPlayerUI : MonoBehaviour
 
     public void ShowPlayerVSPlayer()
     {
-        
-
-       
 
             PlayerSO p1 = GamePlay.instance.Player1_SO;
             PlayerSO p2 = GamePlay.instance.Player2_SO;
             InitializedPlayerVsPlayer(p1, p2);
-      
-        
+ 
     }
 
     private void OnDestroy()
     {
-        GamePlay.instance.InitBackground_UI();
-        GamePlay.instance.InitPlayersInLevel_UI();
-
+       
+        EventHandler.instance.StartMatch(this);
 
     }
 

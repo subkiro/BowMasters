@@ -8,8 +8,18 @@ public class Player2Behaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        GamePlay.instance.Player2.GetComponent<Player>().aimController.enabled = true;
-        GamePlay.instance.Player2.GetComponent<Player>().aimController.PrepearToThrowAI();
+        if (GamePlay.instance.winner == null)
+        {
+            UIManager.instance.ToastMessage("Player2");
+            GamePlay.instance.Player1.GetComponent<Player>().aimController.SetAllCollidersStatus(false);
+            GamePlay.instance.Player2.GetComponent<Player>().aimController.enabled = true;
+            GamePlay.instance.Player2.GetComponent<Player>().aimController.PrepearToThrowAI();
+        }
+        else {
+
+            GamePlay.instance.Player1.GetComponent<Player>().aimController.SetAllCollidersStatus(false);
+            GamePlay.instance.Player2.GetComponent<Player>().aimController.enabled = false;
+        }
     }
 
 
@@ -23,6 +33,7 @@ public class Player2Behaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        GamePlay.instance.Player1.GetComponent<Player>().aimController.SetAllCollidersStatus(true);
         GamePlay.instance.Player2.GetComponent<Player>().aimController.enabled = false;
     }
 

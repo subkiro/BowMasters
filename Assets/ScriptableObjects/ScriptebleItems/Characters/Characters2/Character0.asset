@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   Name: Salva
   weapon: {fileID: 11400000, guid: 720cc35184650394b803ef1b66b830c9, type: 2}
-  health: 12
+  health: 10
   Prefab: {fileID: 8851420241934940535, guid: 129056aee3bf14643ad61342cf9387c8, type: 3}
   isAvaliable: 1
   ProfilePic: {fileID: 21300000, guid: 1f4f55eab68ee4345a8d93b4f86c924f, type: 3}

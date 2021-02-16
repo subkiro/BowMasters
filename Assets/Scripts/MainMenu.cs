@@ -37,6 +37,7 @@ public class MainMenu : MonoBehaviour
             {
                 item.button.interactable = true;
                 item.button.onClick.AddListener(() => SelectCharacter(player));
+                item.button.onClick.AddListener(() => SoundManager.instance.PlayVFX("ClickBuble"));
             }
             else {
                 item.button.interactable = false;
@@ -45,6 +46,7 @@ public class MainMenu : MonoBehaviour
         }
 
         SelectionContainer.GetChild(0).transform.GetComponent<CharacterSelectItem>().button.onClick.Invoke();
+        SoundManager.instance.PlayVFX("PlayerOneChoose");
 
 
     }
@@ -56,13 +58,12 @@ public class MainMenu : MonoBehaviour
         this.CharacterPic.sprite = player.ProfilePic;
         this.WeaponName.text = player.weapon.Name;
         SelectedPlayer = player;
-        
     }
 
 
     public PlayerSO GetRandomPlayer() {
 
-        int randnum = Random.Range(0, GamePlay.instance.PlayersList.Count-1);
+        int randnum = Random.Range(1, GamePlay.instance.PlayersList.Count-1);
 
         return GamePlay.instance.PlayersList[randnum];
     }
@@ -76,12 +77,16 @@ public class MainMenu : MonoBehaviour
 
             GamePlay.instance.SetPlayersFromScriptable(SelectedPlayer, GetRandomPlayer());
             GameObject pvp = Instantiate(PvP_UI, transform.parent);
-            
+            SoundManager.instance.PlayVFX("Pvp");
             Destroy(pvp, 1f);
             this.gameObject.SetActive(false);
         }
     }
 
+    public void ExitApp()
+    {
+        Application.Quit();
 
+    }
 
 }

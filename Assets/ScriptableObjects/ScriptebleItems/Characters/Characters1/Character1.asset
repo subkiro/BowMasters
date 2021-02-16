@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 1
   Name: Alexander
   weapon: {fileID: 11400000, guid: 720cc35184650394b803ef1b66b830c9, type: 2}
-  health: 12
+  health: 10
   Prefab: {fileID: 1612459102471740, guid: 0d79fc506aa58314d8cef757d5ae9035, type: 3}
   isAvaliable: 1
   ProfilePic: {fileID: 21300000, guid: 69052d375b026904fbd732e2970fbdeb, type: 3}

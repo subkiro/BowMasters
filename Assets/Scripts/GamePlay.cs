@@ -6,15 +6,17 @@ public class GamePlay : MonoBehaviour
 {
     [SerializeField] private ArrayScriptable AssetList;
     [SerializeField] private Transform SpawnPos_Player1, SpawnPos_Player2;
+    [SerializeField] public Transform dotContainer;
     public PlayerSO Player1_SO, Player2_SO;
     private WeaponSO weapon1, weapon2;
-
+    public Player winner;
 
     public GameObject Player1, Player2;
     private GameObject background;
 
     public List<PlayerSO> PlayersList;
     private List<BackgroundSO> Backgrounds;
+
 
     public TMPro.TMP_Text logText;
     // Start is called before the first frame update
@@ -31,6 +33,8 @@ public class GamePlay : MonoBehaviour
         PlayersList =  AssetList.Get_Characters();
         Backgrounds = AssetList.Get_Backgrounds();
     }
+
+   
 
     //MenuFuctions
     public void SetPlayersFromScriptable(int index_p1, int index_p2) {
@@ -67,14 +71,22 @@ public class GamePlay : MonoBehaviour
             Player1.tag = "Player1";
 
 
-            Player2 = Player2_SO.InitializeCharacter(SpawnPos_Player2.transform.position, SpawnPos_Player2.transform.rotation, weapon2,true);
+
+            Vector3 spawnOffcet = new Vector3(Random.Range(-10, 10), 1, 0);
+            Player2 = Player2_SO.InitializeCharacter(SpawnPos_Player2.transform.position+ spawnOffcet, SpawnPos_Player2.transform.rotation, weapon2,true);
             Player2.tag = "Player2";
 
             //This is for turning the AI player towords to the Plyaer
             Player2.transform.rotation =  new Quaternion(0, 180, 0,0);
             logText.text = "init player in Game ok";
             Debug.Log("init player in Game ok");
+
             GameStateController.instance.Player1State();
+            //Send Start Match event 
+
+
+
+            EventHandler.instance.StartMatch(this,Player1.GetComponent<Player>(),Player2.GetComponent<Player>());
         }
         else {
             logText.text = "You have to SetPlayers Before Initialize them: Player1_SO ("+Player1.name+ ") / Player2_SO (" + Player2.name + ") / weapon1(" + weapon1.name + ") / weapon1(" + weapon2.name + ") ";
@@ -86,8 +98,8 @@ public class GamePlay : MonoBehaviour
     }
 
     public void InitBackground(int Background_index) {
-      
-            Backgrounds[Background_index].InitializeBackground(new Vector3(0, -5, 0));
+
+            background =  Backgrounds[Background_index].InitializeBackground(new Vector3(0, -5, 0));
            
             logText.text = "BackGround in Game ok: " + Backgrounds[Background_index].name;
             Debug.Log("BackGround in Game ok");
@@ -103,14 +115,40 @@ public class GamePlay : MonoBehaviour
         SetPlayersFromScriptable(0, 1);
     }
 
-    public void InitBackground_UI()
-    {
 
-        InitBackground(0);
+    public void PrepereForNewMatch() {
+     
+        Destroy(Player1);
+        Destroy(Player2);
+        Destroy(background);
+        foreach (Transform dot in dotContainer)
+        {
+            Destroy(dot.gameObject);
+        }
+
+
+        winner = null;
+        
     }
-    public void InitPlayersInLevel_UI() {
-
+    public void OnMatchStart(object sender) {
+        PrepereForNewMatch();
+        InitBackground(0);
         InitPlayers();
+    }
+
+    private void OnEnable()
+    {
+        EventHandler.instance.MatchStartAction += OnMatchStart;
+        EventHandler.instance.WinnerEndMatchEvent += SetWinner;
+
+    }
+    private void OnDisable()
+    {
+        EventHandler.instance.MatchStartAction -= OnMatchStart;
+        EventHandler.instance.WinnerEndMatchEvent -= SetWinner;
+    }
+    private void SetWinner(object sender, Player winner) {
+        this.winner = winner;
     }
 }
 

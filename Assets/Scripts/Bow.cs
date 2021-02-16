@@ -7,7 +7,7 @@ using UnityEngine;
 public class Bow : MonoBehaviour
 {
     Rigidbody2D rb;
-    bool hit;
+    public bool hit;
     public string ownerPlayer;
    
     // Start is called before the first frame update
@@ -31,11 +31,15 @@ public class Bow : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag != ownerPlayer) {
+            SoundManager.instance.PlayVFX("Hit");
+            SetAllCollidersStatus(false);
+    
             rb.isKinematic = true;
+            rb.velocity = Vector3.zero;
             rb.mass = 0;
             this.gameObject.transform.SetParent(collision.transform);
             hit = true;
-            rb.velocity = Vector3.zero;
+            
            
 
             Destroy(this.gameObject,2f);
@@ -55,6 +59,15 @@ public class Bow : MonoBehaviour
         }
         else {
             gameObject.layer = 11; //Bow layer
+        }
+    }
+
+
+    public void SetAllCollidersStatus(bool active)
+    {
+        foreach (Collider2D c in GetComponents<Collider2D>())
+        {
+            c.enabled = active;
         }
     }
 

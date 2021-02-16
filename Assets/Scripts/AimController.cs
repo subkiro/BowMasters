@@ -53,6 +53,10 @@ public class AimController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 isPressed = true;
+
+                
+
+
                 //Prepere Arrow
                 arrow = GamePlay.instance.Player1.GetComponent<Player>().NewWeapon();
                 arrow.tag = "Bow";
@@ -87,7 +91,7 @@ public class AimController : MonoBehaviour
 
 
                 //animate camera
-                playerCamera.m_Lens.OrthographicSize = 5+ Mathf.Clamp(Vector3.Distance(mouseStartPos.normalized,GetMouseWorldPositon().normalized)*10,0,3f); 
+                playerCamera.m_Lens.OrthographicSize = 5+ Mathf.Clamp(distanceFactor*0.3f,0,3f); 
                 UIHelper.UpdateUIHelper(strenth*2+40, this.transform.rotation.z);
             }
 
@@ -112,7 +116,7 @@ public class AimController : MonoBehaviour
 
     public void SetAllCollidersStatus(bool active)
     {
-        foreach (Collider c in GetComponents<Collider>())
+        foreach (Collider2D c in GetComponents<Collider2D>())
         {
             c.enabled = active;
         }
@@ -125,6 +129,7 @@ public class AimController : MonoBehaviour
         arrow.GetComponent<Bow>().enabled = true;
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * strenth;
         GamePlay.instance.Player1.GetComponent<Player>().animator.Play("Throw");
+        SoundManager.instance.PlayVFX("Throw1");
         GameStateController.instance.FlyingBowState();
     }
 
@@ -159,6 +164,8 @@ public class AimController : MonoBehaviour
 
     public void AiThrow()
     {
+        SoundManager.instance.PlayVFX("Throw1");
+
         Transform player1 = GamePlay.instance.Player1.transform;
         arrow = GamePlay.instance.Player2.GetComponent<Player>().NewWeapon();
         arrow.tag = "Bow";
@@ -169,8 +176,8 @@ public class AimController : MonoBehaviour
         arrow.GetComponent<Rigidbody2D>().isKinematic = false;
         arrow.GetComponent<Bow>().enabled = true;
 
-        float ranX = Random.Range(-10, 10);
-        float ranY = Random.Range(-1, 1);
+        float ranX = Random.Range(-1, 1);
+        float ranY = Random.Range(-3, 1);
         float ranZ = 0;
         Vector3 randOffcet = new Vector3(ranX, ranY, ranZ);
         arrow.GetComponent<Rigidbody2D>().velocity = CalculateTrajectoryVelocity(transform.position, player1.transform.position + randOffcet, Random.Range(3,5));
